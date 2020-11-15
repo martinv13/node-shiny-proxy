@@ -6,10 +6,10 @@
     "url": "https://github.com/martinv13/node-shiny-proxy.git"
   },
   "type": "module",
-  "description": "Simple R Shiny apps deployment Node.js solution",
+  "description": "Simple R Shiny apps deployment",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"No test specified\" && exit 0"
   },
   "author": "Martin Vergier",
   "license": "MIT",

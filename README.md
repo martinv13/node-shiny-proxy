@@ -1,13 +1,13 @@
 # node-shiny-proxy
 
-`node-shiny-proxy` offers a simple way to deploy R Shiny app. It runs and manages a few instances of your Shiny app(s) using `Rscript` on your system and acts as a reverse proxy to expose these instances to your users. It relies on the popular [`http-proxy`](https://github.com/http-party/node-http-proxy) and [`http-proxy-middleware`](https://github.com/chimurai/http-proxy-middleware) for proxying. As a pure Node.js-based solution it works cross-platforms.
+`node-shiny-proxy` is a simple way to deploy R Shiny apps. It runs some instances of your Shiny app(s) using `Rscript` on your system and sets up a reverse proxy to expose them to your users. It relies on the popular [`http-proxy`](https://github.com/http-party/node-http-proxy) and [`http-proxy-middleware`](https://github.com/chimurai/http-proxy-middleware) for proxying. As a pure Node.js solution it is platform-independent.
 
-It is intended mainly as a proof of concept deployment option; for more robust solution you should go to Rstudio's [Shiny Server](https://rstudio.com/products/shiny/shiny-server/) or to [ShinyProxy](https://www.shinyproxy.io/). However, depending on your needs and constraints, you may find some features of this package useful:
+It is intended mainly as a proof of concept deployment option; for more robust solution you should go to Rstudio's [Shiny Server](https://rstudio.com/products/shiny/shiny-server/) or to [ShinyProxy](https://www.shinyproxy.io/). However, depending on your needs, you may find some of its features useful:
 
 * it runs several instances of your Shiny apps to overcome the single-process limitation of the free version of Shiny Server,
-* it works cross-platforms and does not rely on Java or Docker as ShinyProxy does,
-* as it basically a middleware for a Node.js [Express](https://expressjs.com) application, it can be extended easily to suit your needs (authentication, etc.),
-* it can host different Shiny apps at "nested" paths (for instance your "home" app at `/` and another app at `/some-app`).
+* it works cross-platform (where R and Node.js run) and does not rely on Java or Docker as ShinyProxy does,
+* it basically a middleware for a Node.js [Express](https://expressjs.com) application, so it can be extended easily to suit your needs (authentication, etc.),
+* it can host different Shiny apps at "nested" paths (for instance one app at `/` and another at `/some-app`).
 
 ## Installation
 
@@ -52,6 +52,8 @@ app.listen(3000);
 
 A `shiny-proxy` object is created with `new ShinyProxy(options)`. This section described available options.
 
+#### Main settings
+
 * **options.portRangeStart:** the start of the port range to serve Shiny apps instances on `localhost` (defaults to 4000). Shiny apps instances will be served on available tcp ports starting from there.
 
 * **options.RscriptPath:** the path to `Rscript` executable (by default, `/usr/lib/R/bin/Rscript`).
@@ -61,6 +63,8 @@ A `shiny-proxy` object is created with `new ShinyProxy(options)`. This section d
 * **options.redirect500:** the path to redirect "internal server errors" to (by default, `/500`). On error, `shiny-proxy` will try to launch new instance of your apps.
 
 * **options.apps:** an array of Shiny apps settings.
+
+#### Apps settings
 
 * **options.apps[i].id:** a unique string identifier for the Shiny app.
 

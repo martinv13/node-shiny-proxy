@@ -1,0 +1,22 @@
+{
+  "name": "shiny-proxy",
+  "version": "0.1.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/martinv13/node-shiny-proxy.git"
+  },
+  "type": "module",
+  "description": "Simple R Shiny apps deployment Node.js solution",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Martin Vergier",
+  "license": "MIT",
+  "dependencies": {
+    "async-lock": "^1.2.4",
+    "http-proxy-middleware": "^1.0.6",
+    "tcp-port-used": "^1.0.1",
+    "uuid": "^8.3.1"
+  }
+}

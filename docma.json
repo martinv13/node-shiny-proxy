@@ -1,0 +1,8 @@
+{
+    "src": ["./lib/**/*.js",  { "guide": "./README.md" }],
+    "app": {
+        "entrance": "content:guide",
+        "routing": "path"
+    },
+    "dest": "docs"
+}

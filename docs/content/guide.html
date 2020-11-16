@@ -1,0 +1,73 @@
+
+<html><head></head><body><h1 id="node-shiny-proxy">node-shiny-proxy</h1>
+<hr />
+<p><code>node-shiny-proxy</code> is a simple way to deploy R Shiny apps. It runs some instances of your Shiny app(s) using <code>Rscript</code> on your system and sets up a reverse proxy to expose them to your users. It relies on the popular <a href="https://github.com/http-party/node-http-proxy"><code>http-proxy</code></a> and <a href="https://github.com/chimurai/http-proxy-middleware"><code>http-proxy-middleware</code></a> for proxying. As a pure Node.js solution it is platform-independent.</p>
+<p>It is intended mainly as a proof of concept deployment option; for more robust solution you should go to Rstudio's <a href="https://rstudio.com/products/shiny/shiny-server/">Shiny Server</a> or to <a href="https://www.shinyproxy.io/">ShinyProxy</a>. However, depending on your needs, you may find some of its features useful:</p>
+<ul>
+<li>it runs several instances of your Shiny apps to overcome the single-process limitation of the free version of Shiny Server,</li>
+<li>it works cross-platform (where R and Node.js run) and does not rely on Java or Docker as ShinyProxy does,</li>
+<li>it basically a middleware for a Node.js <a href="https://expressjs.com">Express</a> application, so it can be extended easily to suit your needs (authentication, etc.),</li>
+<li>it can host different Shiny apps at "nested" paths (for instance one app at <code>/</code> and another at <code>/some-app</code>).</li>
+</ul>
+<h2 id="installation">Installation</h2>
+<hr />
+<pre><code>npm install --save shiny-proxy</code></pre><h2 id="simple-example">Simple example</h2>
+<hr />
+<p>The following example will serve two Shiny apps located in the <code>shiny-apps/main-app</code> and <code>shiny-apps/my-app</code>folders:</p>
+<pre><code class="javascript">
+import express from 'express';
+import ShinyProxy from 'shiny-proxy';
+
+const shinyProxy = new ShinyProxy({
+    portRangeStart: 4000,
+    apps: [
+        {
+            id: 'main-app',
+            path: '/',
+            appDir: 'shiny-apps/main-app'
+        },
+        {
+            id: 'my-app',
+            path: '/my-app',
+            appDir: 'shiny-apps/my-app'
+        }
+    ]
+});
+
+const app = express();
+
+app.use(shinyProxy.middleware);
+
+app.listen(3000);
+</code></pre>
+<h2 id="options">Options</h2>
+<hr />
+<p>A <code>shiny-proxy</code> object is created with <code>new ShinyProxy(options)</code>. This section described available options.</p>
+<h4 id="main-settings">Main settings</h4>
+<ul>
+<li><p><strong>options.portRangeStart:</strong> the start of the port range to serve Shiny apps instances on <code>localhost</code> (defaults to 4000). Shiny apps instances will be served on available tcp ports starting from there.</p>
+</li>
+<li><p><strong>options.RscriptPath:</strong> the path to <code>Rscript</code> executable (by default, <code>/usr/lib/R/bin/Rscript</code>).</p>
+</li>
+<li><p><strong>options.redirect404:</strong> the path to redirect "page not found" errors to (by default, <code>/404</code>).</p>
+</li>
+<li><p><strong>options.redirect500:</strong> the path to redirect "internal server errors" to (by default, <code>/500</code>). On error, <code>shiny-proxy</code> will try to launch new instance of your apps.</p>
+</li>
+<li><p><strong>options.apps:</strong> an array of Shiny apps settings.</p>
+</li>
+</ul>
+<h4 id="apps-settings">Apps settings</h4>
+<ul>
+<li><p><strong>options.apps[i].id:</strong> a unique string identifier for the Shiny app.</p>
+</li>
+<li><p><strong>options.apps[i].path:</strong> the path to serve the Shiny app on.</p>
+</li>
+<li><p><strong>options.apps[i].appDir:</strong> the path of the folder containing the Shiny app (with either <code>app.R</code> or <code>server.R</code> and <code>ui.R</code>).</p>
+</li>
+<li><p><strong>options.apps[i].workers:</strong> the number of instances of the app to run (by default 2).</p>
+</li>
+</ul>
+<h2 id="license">License</h2>
+<hr />
+<p>MIT License (MIT)</p>
+</body></html>

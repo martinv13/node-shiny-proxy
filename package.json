@@ -18,5 +18,9 @@
     "http-proxy-middleware": "^1.0.6",
     "tcp-port-used": "^1.0.1",
     "uuid": "^8.3.1"
+  },
+  "devDependencies": {
+    "docma": "^3.2.2",
+    "jsdoc": "^3.6.6"
   }
 }
